@@ -8,6 +8,8 @@
 # for more details.
 #
 
+CROSS_COMPILE=/home/enrique/CLionProjects/cva-sdk/buildroot/output/host/bin/riscv64-buildroot-linux-gnu-
+
 OBJCOPYFLAGS    := -O binary
 LDFLAGS_vmlinux :=
 ifeq ($(CONFIG_DYNAMIC_FTRACE),y)

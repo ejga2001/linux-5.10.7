@@ -13,13 +13,13 @@
 #include <linux/interrupt.h>
 
 #ifdef CONFIG_RISCV_BASE_PMU
-#define RISCV_BASE_COUNTERS	2
+#define RISCV_BASE_COUNTERS	4
 
 /*
  * The RISCV_MAX_COUNTERS parameter should be specified.
  */
 
-#define RISCV_MAX_COUNTERS	2
+#define RISCV_MAX_COUNTERS	4
 
 /*
  * These are the indexes of bits in counteren register *minus* 1,
