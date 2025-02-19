@@ -861,7 +861,7 @@ __SYSCALL(__NR_faccessat2, sys_faccessat2)
 __SYSCALL(__NR_process_madvise, sys_process_madvise)
 
 #undef __NR_syscalls
-#define __NR_syscalls 441
+#define __NR_syscalls 443
 
 /*
  * 32 bit systems traditionally used different

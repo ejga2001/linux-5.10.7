@@ -27,6 +27,7 @@ enum sbi_ext_id {
 	SBI_EXT_IPI = 0x735049,
 	SBI_EXT_RFENCE = 0x52464E43,
 	SBI_EXT_HSM = 0x48534D,
+    SBI_EXT_PMU = 0x504D55,
 };
 
 enum sbi_ext_base_fid {
@@ -61,6 +62,17 @@ enum sbi_ext_hsm_fid {
 	SBI_EXT_HSM_HART_START = 0,
 	SBI_EXT_HSM_HART_STOP,
 	SBI_EXT_HSM_HART_STATUS,
+};
+
+enum sbi_ext_pmu_fid {
+    SBI_EXT_PMU_NUM_COUNTERS = 0x0,
+    SBI_EXT_PMU_COUNTER_GET_INFO = 0x1,
+    SBI_EXT_PMU_COUNTER_CFG_MATCH = 0x2,
+    SBI_EXT_PMU_COUNTER_START = 0x3,
+    SBI_EXT_PMU_COUNTER_STOP = 0x4,
+    SBI_EXT_PMU_COUNTER_FW_READ	= 0x5,
+    SBI_EXT_PMU_COUNTER_MODE_STOP = 0x6,
+    SBI_EXT_PMU_COUNTER_WRITE = 0x7,
 };
 
 enum sbi_hsm_hart_status {

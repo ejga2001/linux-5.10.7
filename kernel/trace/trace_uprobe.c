@@ -1224,7 +1224,7 @@ static bool trace_uprobe_filter_remove(struct trace_uprobe_filter *filter,
 	bool done;
 
 	write_lock(&filter->rwlock);
-	if (event->hw.target) {
+	if (event->hw.target) {f
 		list_del(&event->hw.tp_list);
 		done = filter->nr_systemwide ||
 			(event->hw.target->flags & PF_EXITING) ||

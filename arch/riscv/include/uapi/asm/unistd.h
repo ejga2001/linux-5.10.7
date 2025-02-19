@@ -41,3 +41,9 @@
 #define __NR_riscv_flush_icache (__NR_arch_specific_syscall + 15)
 #endif
 __SYSCALL(__NR_riscv_flush_icache, sys_riscv_flush_icache)
+
+#define __NR_riscv_inhibit_counter 441
+__SYSCALL(__NR_riscv_inhibit_counter, sys_riscv_inhibit_counter)
+
+#define __NR_riscv_inhibit_counters 442
+__SYSCALL(__NR_riscv_inhibit_counters, sys_riscv_inhibit_counters)

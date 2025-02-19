@@ -9,6 +9,13 @@
 #ifndef _LINUX_SYSCALLS_H
 #define _LINUX_SYSCALLS_H
 
+typedef enum CPUMode {
+    ALL_MODES = 0,
+    U_MODE = 1,
+    S_MODE = 2,
+    M_MODE = 3
+} CPUMode;
+
 struct __aio_sigset;
 struct epoll_event;
 struct iattr;
@@ -1222,6 +1229,9 @@ asmlinkage long sys_mmap_pgoff(unsigned long addr, unsigned long len,
 			unsigned long fd, unsigned long pgoff);
 asmlinkage long sys_old_mmap(struct mmap_arg_struct __user *arg);
 
+/* inhibit mhpmcounters */
+asmlinkage long sys_riscv_inhibit_counter(int stop, CPUMode mode, int cidx);
+asmlinkage long sys_riscv_inhibit_counters(int stop, CPUMode mode);
 
 /*
  * Not a real system call, but a placeholder for syscalls which are

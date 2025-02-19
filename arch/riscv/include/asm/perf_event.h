@@ -13,13 +13,13 @@
 #include <linux/interrupt.h>
 
 #ifdef CONFIG_RISCV_BASE_PMU
-#define RISCV_BASE_COUNTERS	4
+#define RISCV_BASE_COUNTERS	2
 
 /*
  * The RISCV_MAX_COUNTERS parameter should be specified.
  */
 
-#define RISCV_MAX_COUNTERS	4
+#define RISCV_MAX_COUNTERS (RISCV_BASE_COUNTERS + 13)
 
 /*
  * These are the indexes of bits in counteren register *minus* 1,
@@ -39,8 +39,23 @@
 #define RISCV_PMU_MHPMCOUNTER6	5
 #define RISCV_PMU_MHPMCOUNTER7	6
 #define RISCV_PMU_MHPMCOUNTER8	7
+#define RISCV_PMU_MHPMCOUNTER9	8
+#define RISCV_PMU_MHPMCOUNTER10	9
+#define RISCV_PMU_MHPMCOUNTER11 10
+#define RISCV_PMU_MHPMCOUNTER12	11
+#define RISCV_PMU_MHPMCOUNTER13 12
+#define RISCV_PMU_MHPMCOUNTER14	13
+#define RISCV_PMU_MHPMCOUNTER15 14
+#define RISCV_PMU_MHPMCOUNTER16	15
+#define RISCV_PMU_MHPMCOUNTER17 16
+#define RISCV_PMU_MHPMCOUNTER18	17
+#define RISCV_PMU_MHPMCOUNTER19 18
 
 #define RISCV_OP_UNSUPP		(-EOPNOTSUPP)
+
+#define RISCV_PMU_EXCLUDE_USER  1
+#define RISCV_PMU_EXCLUDE_SUPERVISOR  2
+#define RISCV_PMU_EXCLUDE_MACHINE  4
 
 struct cpu_hw_events {
 	/* # currently enabled events*/

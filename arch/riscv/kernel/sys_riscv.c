@@ -9,6 +9,7 @@
 #include <asm/unistd.h>
 #include <asm/cacheflush.h>
 #include <asm-generic/mman-common.h>
+#include <asm/sbi.h>
 
 static long riscv_sys_mmap(unsigned long addr, unsigned long len,
 			   unsigned long prot, unsigned long flags,
@@ -24,6 +25,71 @@ static long riscv_sys_mmap(unsigned long addr, unsigned long len,
 
 	return ksys_mmap_pgoff(addr, len, prot, flags, fd,
 			       offset >> (PAGE_SHIFT - page_shift_offset));
+}
+
+struct sbiret inhibit_counter(int stop, CPUMode mode, int cidx)
+{
+    return sbi_ecall(SBI_EXT_PMU,
+                     SBI_EXT_PMU_COUNTER_MODE_STOP,
+                     stop, (int)mode, cidx,
+                     0, 0, 0);
+}
+
+SYSCALL_DEFINE2(riscv_inhibit_counters,
+                int, stop,
+                CPUMode, mode)
+{
+    struct sbiret ret;
+    int num_hw_ctrs, cidx;
+
+    if (mode < 0 || mode > 3) {
+        return -EINVAL;
+    }
+
+    ret = sbi_ecall(SBI_EXT_PMU,
+                    SBI_EXT_PMU_NUM_COUNTERS,
+                    0, 0, 0, 0, 0, 0);
+
+    if (ret.error) {
+        return -EIO;
+    }
+
+    num_hw_ctrs = ret.value + 1;
+
+    for (cidx = 0; cidx < num_hw_ctrs; cidx++) {
+        if (cidx == 1)
+            continue;
+        ret = inhibit_counter(stop, mode, cidx);
+        if (ret.error) {
+            int j;
+            for (j = 0; j < cidx; j++) {
+                if (j == 1)
+                    continue;
+                inhibit_counter(stop ^ 1, mode, cidx);
+            }
+            return -EIO;
+        }
+    }
+    return 0;
+}
+
+SYSCALL_DEFINE3(riscv_inhibit_counter,
+                int, stop,
+                CPUMode, mode,
+                int, cidx)
+{
+    struct sbiret ret;
+
+    if (mode < 0 || mode > 3) {
+        return -EINVAL;
+    }
+
+    ret = inhibit_counter(stop, mode, cidx);
+
+    if (ret.error) {
+        return -EIO;
+    }
+    return 0;
 }
 
 #ifdef CONFIG_64BIT
